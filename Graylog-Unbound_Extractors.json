@@ -1,0 +1,20 @@
+{
+  "extractors": [
+    {
+      "title": "Unbound DNS Query",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{SYSLOGBASE}%{DATA}%{LOGLEVEL}%{DATA}%{IP:dns_client}%{SPACE}%{NOTSPACE:dns_query}%{NOTSPACE}%{SPACE}%{WORD:dns_query_type}%{SPACE}%{WORD:dns_class}%{SPACE}%{WORD:response_code}%{GREEDYDATA}",
+        "named_captures_only": true
+      },
+      "condition_type": "string",
+      "condition_value": "unbound"
+    }
+  ],
+  "version": "1.0.0"
+}
