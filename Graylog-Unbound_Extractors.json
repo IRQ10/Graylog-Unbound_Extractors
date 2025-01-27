@@ -1,20 +1,35 @@
 {
   "extractors": [
     {
-      "title": "Unbound DNS Query",
+      "title": "OPNsense: RFC 5424 Tagged Unbound DNS Reply",
       "extractor_type": "grok",
       "converters": [],
       "order": 0,
       "cursor_strategy": "copy",
-      "source_field": "message",
+      "source_field": "full_message",
       "target_field": "",
       "extractor_config": {
-        "grok_pattern": "%{SYSLOGBASE}%{DATA}%{LOGLEVEL}%{DATA}%{IP:dns_client}%{SPACE}%{NOTSPACE:dns_query}%{NOTSPACE}%{SPACE}%{WORD:dns_query_type}%{SPACE}%{WORD:dns_class}%{SPACE}%{WORD:response_code}%{GREEDYDATA}",
+        "grok_pattern": "%{DATA} %{SPACE}%{DATA} %{IPORHOST:dns-server} %{WORD:process} %{GREEDYDATA}reply: %{IPORHOST:client-ip} %{IPORHOST:dns-query} %{WORD:query-type} %{WORD:query-class} %{WORD:response-code} %{GREEDYDATA}",
         "named_captures_only": true
       },
-      "condition_type": "string",
-      "condition_value": "unbound"
+      "condition_type": "regex",
+      "condition_value": "^(?i).*\\sunbound\\s\\d+.*]\\sreply:.*$"
+    },
+    {
+      "title": "OPNsense: RFC 5424 Tagged Unbound DNS Query",
+      "extractor_type": "grok",
+      "converters": [],
+      "order": 0,
+      "cursor_strategy": "copy",
+      "source_field": "full_message",
+      "target_field": "",
+      "extractor_config": {
+        "grok_pattern": "%{DATA} %{SPACE}%{DATA} %{IPORHOST:dns-server} %{WORD:process} %{GREEDYDATA}query: %{IPORHOST:client-ip} %{IPORHOST:dns-query} %{WORD:query-type} %{WORD:query-class}",
+        "named_captures_only": true
+      },
+      "condition_type": "regex",
+      "condition_value": "^(?i).*\\sunbound\\s\\d+.*]\\squery:.*$"
     }
   ],
-  "version": "1.0.0"
+  "version": "5.0.13"
 }
