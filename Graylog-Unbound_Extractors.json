@@ -9,7 +9,7 @@
       "source_field": "full_message",
       "target_field": "",
       "extractor_config": {
-        "grok_pattern": "%{DATA} %{SPACE}%{DATA} %{IPORHOST:dns-server} %{WORD:process} %{GREEDYDATA}reply: %{IPORHOST:client-ip} %{IPORHOST:dns-query} %{WORD:query-type} %{WORD:query-class} %{WORD:response-code} %{GREEDYDATA}",
+        "grok_pattern": "%{DATA} %{SPACE}%{DATA} %{IPORHOST:dns-server} %{WORD:process} %{GREEDYDATA}reply: %{IPORHOST:client-ip} %{IPORHOST:dns-query-reply} %{WORD:query-type} %{WORD:query-class} %{WORD:response-code} %{GREEDYDATA}",
         "named_captures_only": true
       },
       "condition_type": "regex",
